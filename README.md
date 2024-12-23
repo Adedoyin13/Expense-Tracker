@@ -22,18 +22,18 @@ Contributions to this repository can be made via pull requests on GitHub to the 
 
 follow this step :
 In your terminal, 
-cd Desktop 
-git clone <repo link>
-cd Express-Tracker
-git status
-git checkout -b "your branch name"
-code .
+- cd Desktop 
+- git clone <repo link>
+- cd Express-Tracker
+- git status
+- git checkout -b "your branch name"
+- code .
 
 whenever you want to push to github:
-git add --all
-git status
-git commit -m "commit-name"
-git push origin "your branch name"
+- git add --all
+- git status
+- git commit -m "commit-name"
+- git push origin "your branch name"
 
 ```
 MONGO_URI = 
