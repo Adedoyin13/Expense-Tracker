@@ -18,10 +18,22 @@ Contributions to this repository can be made via pull requests on GitHub to the 
 - JWT (For authentication)
 - bcryptjs (for data encryption)
 
+- make sure to uncheck the clone only main branch when you fork my repo, so you can clone all branches in the repo
 
-In the terminal
-- cd Server and cd .env file in the root directory of your server directory.
-- Supply the following credentials
+follow this step :
+In your terminal, 
+cd Desktop 
+git clone <repo link>
+cd Express-Tracker
+git status
+git checkout -b "your branch name"
+code .
+
+whenever you want to push to github:
+git add --all
+git status
+git commit -m "commit-name"
+git push origin "your branch name"
 
 ```
 MONGO_URI = 
