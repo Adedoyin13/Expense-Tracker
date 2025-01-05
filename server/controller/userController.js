@@ -1,4 +1,4 @@
-const User = require("../model/userModels");
+const User = require("../model/userModel");
 const asyncHandler = require('express-async-handler');
 const generateToken = require("../utils");
 const bcrypt = require('bcryptjs');
@@ -16,19 +16,14 @@ const registerUser = asyncHandler(async (req, res) => {
     } else if (password.length > 20) {
       return res.status(400).json({ message: "Password must not be up to 20 characters" });
     }
-
      // check if user already exists
         
      const userExists = await User.findOne({ email })
      if(userExists) {
-         // console.log(error)
          return res.status(400).json({message: 'Email aleady exists'});
      }
 
-     // create a new admin in the database
      const user = await User.create({firstName, lastName, email, password})
-
-     // Generate JWT token for new admin
      const token = generateToken(user._id);
 
      res.cookie('token', token, {
@@ -39,7 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
          secure: true
      })
 
-     // Send a success response with admin details and token
+     // Send a success response with user details and token
      if(user) {
          const { _id, firstName, lastName, email } = user;
          res.status(201).json({_id, firstName, lastName, email})
@@ -47,7 +42,6 @@ const registerUser = asyncHandler(async (req, res) => {
          console.log(error);
         res.status(400).json({ message: "Invalid Data" });
      }
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -117,6 +111,7 @@ const updateUser = asyncHandler(async(req, res) => {
     if(!user) {
         return res.status(404).json({message: 'User not found'})
     }
+
     user.firstName = firstName || user.firstName;
     user.lastName = lastName || user.lastName;
     user.password = password || user.password;

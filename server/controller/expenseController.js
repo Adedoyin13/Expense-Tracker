@@ -1,5 +1,5 @@
-const Expense = require("../model/expenseModels");
 const asyncHandler = require("express-async-handler");
+const Expense = require("../model/expenseModel");
 
 // Create and save a new expense
 const createExpense = asyncHandler(async (req, res) => {
@@ -30,6 +30,7 @@ const updateExpense = asyncHandler(async (req, res) => {
     if (!expense) {
       return res.status(404).json({ message: "Expense not found" });
     }
+
     expense.title = title || expense.title
     expense.amount = amount || expense.amount
     expense.category = category || expense.category
@@ -64,7 +65,7 @@ const getExpense = asyncHandler(async (req, res) => {
 
 const getAllExpenses = asyncHandler(async (req, res) => {
   try {
-    const expenses = await Expense.find().sort("-createdAt");
+    const expenses = await Expense.find().populate('user').sort("-createdAt");
 
     if (!expenses) {
       return res.status(404).json({ message: "Expenses not found" });
