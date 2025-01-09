@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
+  profilePicture: {
+    image: { type: Buffer },      // Binary data for the image
+    contentType: { type: String } // MIME type (e.g., "image/png", "image/jpeg")
+}
 },{
   timestamps: true,
 })

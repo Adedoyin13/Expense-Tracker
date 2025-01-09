@@ -1,10 +1,9 @@
-const User = require("../model/userModels");
+const User = require("../model/userModel");
 const asyncHandler = require('express-async-handler');
 const generateToken = require("../utils");
 const bcrypt = require('bcryptjs');
 
 // Register User
-
 const registerUser = asyncHandler(async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -54,6 +53,30 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// uploading/updating a user's profile picture
+const uploadProfilePicture = asyncHandler(async (req, res) => {
+  try {
+      const userId = req.params.userId;
+
+      // Find the user
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Update the profile picture
+      user.profilePicture = {
+          image: req.file.buffer,       // Save binary data
+          contentType: req.file.mimetype // Save MIME type
+      };
+
+      await user.save();
+      res.status(200).json({message: 'Profile picture updated successfully' });
+  } catch (err) {
+      res.status(500).json({error: err.message });
+  }
+});
+
 // Login User
 const loginUser = asyncHandler(async (req, res) => {
   try {
@@ -88,7 +111,6 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 // Get User 
-
 const getUser = asyncHandler(async (req, res) => {
   try {
     const { userId } = req.params;
@@ -108,7 +130,6 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 // Update User
-
 const updateUser = asyncHandler(async(req, res) => {
   try{
     const { userId } = req.params;
@@ -130,7 +151,6 @@ const updateUser = asyncHandler(async(req, res) => {
 })
 
 // DeleteUser
-
 const deleteUser = asyncHandler(async(req, res) =>{
   try{
     const { userId } = req.params;
@@ -147,7 +167,6 @@ const deleteUser = asyncHandler(async(req, res) =>{
 })
 
 //logOutUser
-
 const logoutUser = asyncHandler(async(req, res) => {
   res.cookie('token', '', {
       path: '/',
@@ -159,4 +178,4 @@ const logoutUser = asyncHandler(async(req, res) => {
   return res.status(200).json({message: 'Logout Successful'})
 })
 
-module.exports = { registerUser, loginUser, logoutUser, getUser, deleteUser, updateUser };
+module.exports = { registerUser, uploadProfilePicture, loginUser, logoutUser, getUser, deleteUser, updateUser };

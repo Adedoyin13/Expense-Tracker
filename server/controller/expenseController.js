@@ -1,4 +1,4 @@
-const Expense = require("../model/expenseModels");
+const Expense = require("../model/expenseModel");
 const asyncHandler = require("express-async-handler");
 
 // Create and save a new expense
