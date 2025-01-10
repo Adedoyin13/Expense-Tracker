@@ -8,6 +8,7 @@ const userRoute = require("./route/userRoute");
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const errorHandler = require("./middleware/errorMiddleware");
+const { limiter } = require("./controller/userController");
 const PORT = 3000
 
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use(cors({
   methods: "GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS",
 }))
 
+app.use(limiter);
 app.use("/expense", expenseRoute); 
 app.use("/user", userRoute); 
 

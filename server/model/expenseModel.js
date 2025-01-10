@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const expenseSchema = new mongoose.Schema({
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
     title: { type: String, required: true, trim: true },
     amount: { type: Number, required: true, trim: true },
     category: {
@@ -20,5 +24,6 @@ const expenseSchema = new mongoose.Schema({
     }},{timestamps: true}
 );
 
+expenseSchema.index({ user: 1, createdAt: -1 });
 const Expense = mongoose.model("Expense", expenseSchema);
 module.exports = Expense;
