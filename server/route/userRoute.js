@@ -4,7 +4,6 @@ const multer = require("multer");
 
 // Configure Multer to use memory storage
 const upload = multer({ storage: multer.memoryStorage() });
-
 const { registerUser,uploadProfilePicture, loginUser, logoutUser, getUser, deleteUser, updateUser } = require("../controller/userController");
 const { protectUser } = require("../middleware/authMiddleware");
 
