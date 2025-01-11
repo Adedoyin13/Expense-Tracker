@@ -51,7 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // uploading/updating a user's profile picture
 const uploadProfilePicture = asyncHandler(async (req, res) => {
   try {
-      const userId = req.params.userId;
+    const userId = req.userId;
 
       // Find the user
       const user = await User.findById(userId);
