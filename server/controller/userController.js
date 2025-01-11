@@ -48,6 +48,30 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// uploading/updating a user's profile picture
+const uploadProfilePicture = asyncHandler(async (req, res) => {
+  try {
+      const userId = req.params.userId;
+
+      // Find the user
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      // Update the profile picture
+      user.profilePicture = {
+          image: req.file.buffer,       // Save binary data
+          contentType: req.file.mimetype // Save MIME type
+      };
+
+      await user.save();
+      res.status(200).json({message: 'Profile picture updated successfully' });
+  } catch (err) {
+      res.status(500).json({error: err.message });
+  }
+});
+
 // Login User
 const loginUser = asyncHandler(async (req, res) => {
   try {
@@ -82,7 +106,6 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 // Get User 
-
 const getUser = asyncHandler(async (req, res) => {
   try {
     const userId = req.userId;  // Get ID from authenticated user
@@ -101,7 +124,6 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 // Update User
-
 const updateUser = asyncHandler(async(req, res) => {
   try {
     const userId = req.userId;  // Get ID from authenticated user
@@ -154,7 +176,6 @@ const deleteUser = asyncHandler(async(req, res) => {
 });
 
 //logOutUser
-
 const logoutUser = asyncHandler(async(req, res) => {
   res.cookie('token', '', {
       path: '/',
@@ -173,4 +194,4 @@ const limiter = rateLimit({
   max: 100 // limit each IP to 100 requests per windowMs
 });
 
-module.exports = { registerUser, loginUser, logoutUser, getUser, deleteUser, updateUser, limiter };
+module.exports = { registerUser, uploadProfilePicture, loginUser, logoutUser, getUser, deleteUser, updateUser, limiter };
